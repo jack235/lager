@@ -27,7 +27,7 @@
       
       <td><div align=right>
         <%=	amount_in = In.where(:item_id => item.id).sum(:amount)
-		amount_bought = In.where(:item_id => item.id).where.not(:from => "eigene Ernte").sum(:amount)
+		amount_bought = In.where(:item_id => item.id).where.not(:from => "own").sum(:amount)
 		amount = amount_in - Out.where(:item_id => item.id).sum(:amount)
 		amount = amount.round(2)
 		amount = amount % 1 == 0 ? amount.to_i : amount.to_f 
@@ -42,7 +42,7 @@
 	  </td>
 	  	  
 	  <td><div align=right>
-		<%= amount_out = Out.where(:item_id => item.id).sum(:amount) 
+		<%= amount_out = Out.where(:item_id => item.id).where.not(:to => "own").sum(:amount) 
 			amount_out != 0 ? amount_out.to_i : "" %>
 	  </td>	  
 	  	  
