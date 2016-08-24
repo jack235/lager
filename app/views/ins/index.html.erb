@@ -1,0 +1,35 @@
+<center>
+<h1>in</h1>
+<%= link_to 'new', new_in_path %> / 
+<%= link_to 'index', items_path %> / 
+<%= link_to 'out', outs_path %><br>
+<table width=60%>
+  <tr>
+    <th>date</th>
+    <th>item</th>
+    <th>amount</th>
+    <th>price</th>
+    <th>from</th>
+    <th>paid</th>
+    <th colspan="2"></th>
+  </tr>
+ 
+  <% @ins.each do |incoming| %>
+    <tr>
+      <td><%= incoming.date.to_formatted_s(:long_ordinal) %></td>
+      <td><%= Item.find(incoming.item_id).name %></td>
+      <td><%= amount = incoming.amount.round(2) 
+			  amount % 1 == 0 ? amount.to_i : amount.to_f %></td>
+      <td><%= price = incoming.price.round(2) 
+			  price % 1 == 0 ? price.to_i : price.to_f %></td>
+      <td><%= incoming.from %></td>
+      <td><%= paid = incoming.paid? ? "paid" : "unpaid" %></td>
+
+      <td><%= link_to 'Edit', edit_in_path(incoming) %></td>
+      <td><%= link_to 'Destroy', in_path(incoming),
+              method: :delete,
+              data: { confirm: 'Are you sure?' } %></td>
+    </tr>
+  <% end %>
+</table>
+</center>

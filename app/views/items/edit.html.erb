@@ -1,0 +1,39 @@
+<center>
+<h1>edit an item</h1>
+ 
+<%= link_to 'in', in_path %> / 
+<%= link_to 'index', items_path %> / 
+<%= link_to 'out', outs_path %><br>
+
+<%= form_for :item, url: item_path(@item), method: :patch do |f| %>
+  <% if @item.errors.any? %>
+    <div id="error_explanation">
+      <h2>
+        <%= pluralize(@item.errors.count, "error") %> prohibited
+        this item from being saved:
+      </h2>
+      <ul>
+        <% @item.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+<table width=30%>
+  <tr>
+    <th>item</th>
+    <th>scientific</th>
+    <th colspan="3"></th>
+  </tr>
+  <tr>
+    <td><%= f.text_field :name %></td>
+    <td><%= f.text_field :scientific_name %></td>
+  </tr>
+  <tr>
+    <td colspan="5"><center><%= f.submit %></td>
+  </tr>
+</table>
+
+<% end %>
+<%= link_to 'Back', items_path %>
+</center>

@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  date: 2016-08-10 12:16:58
+  item_id: 
+  amount: 
+  price: 
+  to: MyString
+
+two:
+  date: 2016-08-10 12:16:58
+  item_id: 
+  amount: 
+  price: 
+  to: MyString

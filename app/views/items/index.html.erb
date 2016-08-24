@@ -1,0 +1,70 @@
+<center>
+<h1>index</h1>
+<%= link_to 'in', ins_path %> / 
+<%= link_to 'new', new_item_path %> / 
+<%= link_to 'out', outs_path %><br>
+
+
+<table width=60%>
+  <tr>
+    <th>name</th>
+    <th>scientific</th>
+    <th><div align=right>amount</th>
+    <th><div align=right>cost/unit</th>
+    <th><div align=right>inc/unit</th>
+	<th><div align=right>profit</th>
+    <th colspan="2"></th>
+  </tr>
+  
+  <% @all_profit = 0.0
+	 @items.each do |item| %>
+    <tr>
+      
+      <td><%= item.name %></td>
+      
+      <td><i><%= item.scientific_name %></i></td>
+      
+      <td><div align=right>
+        <%=	amount_in = In.where(:item_id => item.id).sum(:amount)
+		amount_bought = In.where(:item_id => item.id).where.not(:from => "eigene Ernte").sum(:amount)
+		amount = amount_in - Out.where(:item_id => item.id).sum(:amount)
+		amount = amount.round(2)
+		amount = amount % 1 == 0 ? amount.to_i : amount.to_f 
+		%>
+	  </td>
+	  
+	  <td><div align=right><%= amount_bought != 0 ? ((In.where(:item_id => item.id, :paid => true).sum(:price)) / amount_bought).round(2) : "" %></td>
+	  
+	  <td><div align=right>
+	    <%= amount_sold = Out.where(:item_id => item.id, :paid => true).sum(:price) 
+			amount_sold != 0 ? (amount_sold / Out.where(:item_id => item.id, :paid => true).sum(:amount)).round(2) : "" %>
+	  </td>
+	  	  
+	  <td><div align=right>
+	    <%= profit = amount_sold - In.where(:item_id => item.id, :paid => true).sum(:price) 
+			@all_profit += profit
+			profit.round(2)  % 1 == 0 ? profit.to_i : profit.round(2)
+			%>
+	  </td>
+      
+      <td><div align=right><%= link_to 'Edit', edit_item_path(item) %></td>
+      
+      <td><div align=right><%= link_to 'Destroy', item_path(item),
+              method: :delete,
+              data: { confirm: 'Are you sure?' } %></td>
+    </tr>
+   <% end %>
+    <tr>
+      <td colspan="3">
+      <div align="left"><b>Balance
+      </td>
+      <td colspan="2">
+      <td><div align=right>
+      <b><%= @all_profit %>
+      </td>
+      <td colspan="2">
+      </td>
+    </tr>
+
+</table>
+</center>

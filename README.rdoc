@@ -1,0 +1,1 @@
+A simple rails app to manage a very basic shop.
