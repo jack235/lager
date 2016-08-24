@@ -12,6 +12,7 @@
     <th><div align=right>amount</th>
     <th><div align=right>cost/unit</th>
     <th><div align=right>inc/unit</th>
+    <th><div align=right>sold</th>
 	<th><div align=right>profit</th>
     <th colspan="2"></th>
   </tr>
@@ -41,6 +42,11 @@
 	  </td>
 	  	  
 	  <td><div align=right>
+		<%= amount_out = Out.where(:item_id => item.id).sum(:amount) 
+			amount_out != 0 ? amount_out.to_i : "" %>
+	  </td>	  
+	  	  
+	  <td><div align=right>
 	    <%= profit = amount_sold - In.where(:item_id => item.id, :paid => true).sum(:price) 
 			@all_profit += profit
 			profit.round(2)  % 1 == 0 ? profit.to_i : profit.round(2)
@@ -55,12 +61,12 @@
     </tr>
    <% end %>
     <tr>
-      <td colspan="3">
+      <td colspan="4">
       <div align="left"><b>Balance
       </td>
       <td colspan="2">
       <td><div align=right>
-      <b><%= @all_profit %>
+      <b><%= @all_profit.round(2) %>
       </td>
       <td colspan="2">
       </td>
